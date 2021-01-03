@@ -2,6 +2,7 @@ package homepage;
 
 
 import commonAPI.WebAPI;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -18,26 +19,29 @@ public class Homepage extends WebAPI {
 
     @FindBy(xpath = webElementAccountTypesMenu)
     private WebElement accountTypesMenu;
-    @FindBy(how = How.XPATH,using = webElementCorePortfoliosLink)
+    @FindBy(how = How.XPATH, using = webElementCorePortfoliosLink)
     public WebElement corePortfoliosLink;
-    @FindBy(how = How.XPATH,using = webElementMeetCorePortfoliosText)
+    @FindBy(how = How.XPATH, using = webElementMeetCorePortfoliosText)
     public WebElement meetCorePortfoliosText;
-    @FindBy(how = How.XPATH,using = webElementLogonMenu)
+
+    @FindBy(how = How.XPATH, using = webElementLogonMenu)
     private WebElement logonMenu;
     @FindBy(how = How.XPATH, using = webElementUsernameField)
     private WebElement usernameField;
     @FindBy(how = How.XPATH, using = webElementPasswordField)
     private WebElement passwordField;
 
+    @FindBy(how = How.XPATH,using = webElementFormsAndApplicationsLink)
+    private WebElement formsAndApplicationsLink;
 
 
-    public void mouseHooverOnAccountTypes(){
+    public void mouseHooverOnAccountTypes() {
 
-        WebDriverWait wait = new WebDriverWait(driver,30);
+        WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofSeconds(2))
                 .until(ExpectedConditions.visibilityOf(accountTypesMenu));
-                Actions action = new Actions(driver);
+        Actions action = new Actions(driver);
         action.moveToElement(accountTypesMenu).build().perform();
         try {
             Thread.sleep(3000);
@@ -45,8 +49,9 @@ public class Homepage extends WebAPI {
             e.printStackTrace();
         }
     }
-    public void clickOnCorePortfolios(){
-        WebDriverWait wait = new WebDriverWait(driver,30);
+
+    public void clickOnCorePortfolios() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
 
         wait.withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofSeconds(2))
@@ -59,16 +64,18 @@ public class Homepage extends WebAPI {
             e.printStackTrace();
         }
     }
-    public String meetCorePortfoliosText(){
-        WebDriverWait wait = new WebDriverWait(driver,30);
+
+    public String meetCorePortfoliosText() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofSeconds(2))
                 .until(ExpectedConditions.visibilityOf(meetCorePortfoliosText));
 
         return meetCorePortfoliosText.getText();
     }
-    public void clickOnLogon(){
-        WebDriverWait wait = new WebDriverWait(driver,30);
+
+    public void clickOnLogon() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofSeconds(2))
                 .until(ExpectedConditions.elementToBeClickable(logonMenu));
@@ -77,12 +84,31 @@ public class Homepage extends WebAPI {
 
 
     }
-    public  String logonPageTitle(){
+
+    public String logonPageTitle() {
 
         return driver.getTitle();
 
     }
+    public void clickOnFormsAndApplications(){
 
+        WebDriverWait wait = new WebDriverWait(driver,30);
+        wait.until(ExpectedConditions.elementToBeClickable(formsAndApplicationsLink));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", formsAndApplicationsLink);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public String formsAndApplicationsPageUrl(){
+
+
+        return driver.getCurrentUrl();
+
+    }
 
 
 }
